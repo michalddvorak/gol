@@ -1,4 +1,4 @@
-#Game of Life
+# Game of Life
 
 Quick implementation of J. Conway's Game of Life
 
