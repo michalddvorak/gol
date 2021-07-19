@@ -1,0 +1,5 @@
+bitmap.o: bitmap.cpp bitmap.hpp
+colony.o: colony.cpp colony.hpp bitmap.hpp printer.hpp
+gol.o: gol.cpp gol.hpp colony.hpp bitmap.hpp printer.hpp
+main.o: main.cpp overload.hpp gol.hpp colony.hpp bitmap.hpp printer.hpp
+printer.o: printer.cpp printer.hpp bitmap.hpp
