@@ -35,9 +35,9 @@ int main(int argc, char* argv[])
 		std::cerr << "Could not open file \"" << argv[1] << "\"." << std::endl;
 		return 1;
 	}
-	size_t generations;
+	int generations;
 	std::stringstream ss(argv[2]);
-	if(!(ss >> generations))
+	if(!(ss >> generations) || generations < 0)
 	{
 		std::cerr << "Invalid number of generations \"" << argv[2] << "\"." << std::endl;
 		return 1;
