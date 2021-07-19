@@ -24,5 +24,5 @@ void colony::next_gen()
 }
 void colony::print(const printer& p) const
 {
-	p.print(new_map);
+	p.print(new_map, 1, new_map.rows() - 1, 1, new_map.cols() - 1);
 }
