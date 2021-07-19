@@ -16,6 +16,7 @@
 #define DEAD BLACK_SQUARE
 #endif
 
+
 void help()
 {
 	std::cerr << "gol <filename> <generations>" << std::endl;
