@@ -40,3 +40,11 @@ std::variant<bitmap, std::string> bitmap_factory::from_stream(size_t rows, size_
 		}
 	return bm;
 }
+bitmap bitmap::add_sentinels() const
+{
+	bitmap bm(m_rows + 2, m_cols + 2);
+	for(size_t i = 1; i <= m_rows; ++i)
+		for(size_t j = 1; j <= m_cols; ++j)
+			bm[i][j] = (*this)[i-1][j-1];
+	return bm;
+}

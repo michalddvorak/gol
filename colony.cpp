@@ -1,43 +1,28 @@
 #include "colony.hpp"
 
-colony::colony(bitmap b) : m_map(std::move(b)) { }
-size_t colony::neighbours_alive(size_t i, size_t j) const
+colony::colony(bitmap b) : new_map(b.add_sentinels()),
+						   last_map(new_map) { }
+
+size_t colony::get_nbhood(const bitmap& bm, size_t i, size_t j)
 {
-	size_t cnt = 0;
-	if(i != 0)
-		cnt += m_map[i - 1][j];
-	if(j != 0)
-		cnt += m_map[i][j - 1];
-	if(i != 0 && j != 0)
-		cnt += m_map[i - 1][j - 1];
-	if(i != m_map.rows() - 1)
-		cnt += m_map[i + 1][j];
-	if(j != m_map.cols() - 1)
-		cnt += m_map[i][j + 1];
-	if(i != 0 && j != m_map.cols() - 1)
-		cnt += m_map[i - 1][j + 1];
-	if(i != m_map.rows() - 1 && j != 0)
-		cnt += m_map[i + 1][j - 1];
-	if(i != m_map.rows() - 1 && j != m_map.cols() - 1)
-		cnt += m_map[i + 1][j + 1];
-	return cnt;
+	return bm[i - 1][j - 1] // << 0
+		   | bm[i - 1][j] << 1
+		   | bm[i - 1][j + 1] << 2
+		   | bm[i][j - 1] << 3
+		   | bm[i][j] << 4
+		   | bm[i][j + 1] << 5
+		   | bm[i + 1][j - 1] << 6
+		   | bm[i + 1][j] << 7
+		   | bm[i + 1][j + 1] << 8;
 }
 void colony::next_gen()
 {
-	bitmap new_map(m_map.rows(), m_map.cols());
-	for(size_t i = 0; i < m_map.rows(); ++i)
-		for(size_t j = 0; j < m_map.cols(); ++j)
-		{
-			size_t nbs_alive = neighbours_alive(i, j);
-			bool cur = m_map[i][j];
-			if(nbs_alive == 3 || (cur && nbs_alive == 2))
-				new_map[i][j] = true;
-			else if(cur && (nbs_alive > 3 || nbs_alive < 2))
-				new_map[i][j] = false;
-		}
-	m_map = new_map;
+	last_map = new_map;
+	for(size_t i = 1; i < last_map.rows() - 1; ++i)
+		for(size_t j = 1; j < last_map.cols() - 1; ++j)
+			new_map[i][j] = table[get_nbhood(last_map, i, j)];
 }
 void colony::print(const printer& p) const
 {
-	p.print(m_map);
+	p.print(new_map);
 }

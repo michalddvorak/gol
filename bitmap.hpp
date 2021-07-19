@@ -11,11 +11,11 @@ class bitmap
 	const std::vector<bool>& operator[](size_t i) const;
 	size_t rows() const;
 	size_t cols() const;
+	bitmap add_sentinels() const;
  private:
 	std::vector<std::vector<bool>> m_map;
 	size_t m_rows, m_cols;
 };
-
 class bitmap_factory
 {
  public:
