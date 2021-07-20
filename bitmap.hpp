@@ -1,34 +1,11 @@
 #pragma once
 
-#include <vector>
 #include <istream>
 #include <variant>
+#include <string>
+#include "matrix.hpp"
 
-class bitmap
-{
- public:
-	bitmap(size_t rows, size_t cols);
-	
-	bool* operator [](size_t i);
-	const bool* operator [](size_t i) const;
-	
-	bitmap(const bitmap& other);
-	bitmap(bitmap&& other) noexcept;
-	bitmap& operator =(bitmap other) noexcept;
-	~bitmap();
-	friend void swap(bitmap& a, bitmap& b) noexcept;
-	void swap(bitmap& other) noexcept;
-	
-	size_t rows() const;
-	size_t cols() const;
-	bitmap add_sentinels() const;
- private:
-	void init_internal_array();
-	size_t m_rows, m_cols;
-	bool** m_interal_array;
-	bool* m_actual_array;
-};
-
+using bitmap = matrix<bool>;
 
 class bitmap_factory
 {

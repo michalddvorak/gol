@@ -1,7 +1,8 @@
 #include "colony.hpp"
 
-colony::colony(bitmap b) : new_map(b.add_sentinels()),
-						   last_map(new_map) { }
+
+colony::colony(const bitmap& b) : new_map(add_sentinels(b)),
+								  last_map(new_map) { }
 
 size_t colony::get_nbhood(const bitmap& bm, size_t i, size_t j)
 {
@@ -25,4 +26,17 @@ void colony::next_gen()
 void colony::print(const printer& p) const
 {
 	p.print(new_map, 1, new_map.rows() - 1, 1, new_map.cols() - 1);
+}
+bitmap colony::add_sentinels(const bitmap& bm)
+{
+	bitmap new_bm(bm.rows() + 2, bm.cols() + 2);
+	
+	for(size_t i = 0; i < bm.rows() + 2; ++i)
+		for(size_t j = 0; j < bm.cols() + 2; ++j)
+			if(i == 0 || i == bm.rows() + 1
+			   || j == 0 || j == bm.cols() + 1)
+				new_bm[i][j] = false;
+			else
+				new_bm[i][j] = bm[i - 1][j - 1];
+	return new_bm;
 }

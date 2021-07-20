@@ -7,7 +7,6 @@ OBJS           = bitmap.o  \
                  gol.o     \
                  printer.o \
 
-
 all: $(PROG)
 
 $(PROG): main.cpp $(OBJS)
